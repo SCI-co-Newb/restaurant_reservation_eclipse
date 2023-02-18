@@ -30,7 +30,8 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
     
     private String[] get_info () {
     	try {
-    		File myObj = new File("mysql_info.txt");
+    		// make sure to change the file location to where you actually stored your file
+    		File myObj = new File("/Users/sahajdeep/projects/restaurant_reservation_eclipse/src/main/java/com/example/hello/restaurant_reservation_eclipse/mysql_info.txt");
     		Scanner myReader = new Scanner(myObj);
     		String[] mysql_info = new String[3];
     		for (int i = 0; myReader.hasNextLine(); i++) {
