@@ -12,7 +12,7 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
     private String pass_word;
     private boolean approved;
 
-    public Customer (String email, String user_name, String pass_word) throws ClassNotFoundException, SQLException {
+    public Customer (String email, String user_name, String pass_word) throws ClassNotFoundException, SQLException { // for sign-up
         this.email = email.toLowerCase();
         this.user_name = user_name;
         this.pass_word = pass_word;
@@ -20,6 +20,17 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
         // second add a method to see if user_name already exists (capitalization does matter)
         if (check_email_user_name()) {
             customer_sign_up();
+            approved = true;
+        } else {
+            approved = false;
+        }
+    }
+    
+    public Customer (String user_name, String pass_word) throws ClassNotFoundException, SQLException { // for log-in
+        this.user_name = user_name;
+        this.pass_word = pass_word;
+        this.email = check_user_name_pass_word();
+        if (this.email != null) {
             approved = true;
         } else {
             approved = false;
@@ -86,6 +97,33 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
         con.close();
 
         return true;
+    }
+    
+    private String check_user_name_pass_word () throws SQLException, ClassNotFoundException {
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+        String query = "SELECT * FROM customers";
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            if (rs.getString(3).equals(this.user_name) && rs.getString(4).equals(this.pass_word)) {
+            	String e_mail = rs.getString(2);
+            	st.close();
+                con.close();
+                return e_mail;
+            }
+        }
+        
+        st.close();
+        con.close();
+
+        return null;
     }
     
     // private methods end
