@@ -82,13 +82,43 @@ public class App {
 	}
 	
 	// TODO will implement later
-	private static void reservations(Customer account) {
+	private static void reservations(Customer account) throws ClassNotFoundException, SQLException {
+		String[][] all_restaurants = Restaurant.get_all_restaurants();
 		while (true) {
-			System.out.println("Reservations:");
-			System.out.println("Anything other key is to go back");
-			System.out.println("Enter:");
-			
-			/*String choice = */myObj.nextLine();
+			System.out.println("Current Reservation:");
+			int r_id = account.get_reservation_id();
+			if (r_id > 0) {
+				System.out.println(Restaurant.get_restaurant(r_id) + "\n");
+				System.out.println("Type 0 to cancel reservation, anything else to quit:");
+				
+				String choice = myObj.nextLine();
+				
+				if (choice.equals("0")) {
+					account.reset_restaurant_id();
+				} else {
+					break;
+				}
+			} else {
+				System.out.println("Currently you have no reservation.\n");
+				System.out.println("Restaurants:");
+				for (int i = 0; i < all_restaurants.length; i++) {
+					System.out.println((i+1)+" - "+all_restaurants[i][1]);
+				}
+				System.out.println("Enter one of the above numbers to reserve, anything else to quit:");
+				
+				String choice = myObj.nextLine();
+				
+				try {
+					Integer num = Integer.parseInt(choice);
+					if (num > 0 && num <= all_restaurants.length) {
+						account.set_restaurant_id(Integer.parseInt(all_restaurants[num-1][0]));
+					} else {
+						break;
+					}
+				} catch (NumberFormatException e) {
+					break;
+				}
+			}
 			
 			break;
 		}

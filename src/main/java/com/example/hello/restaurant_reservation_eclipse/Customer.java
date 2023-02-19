@@ -39,7 +39,7 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
     
     // private methods begin
     
-    private String[] get_info () {
+    private static String[] get_info () {
     	try {
     		// make sure to change the file location to where you actually stored your file
     		File myObj = new File("/Users/sahajdeep/projects/restaurant_reservation_eclipse/src/main/java/com/example/hello/restaurant_reservation_eclipse/mysql_info.txt");
@@ -151,12 +151,58 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
         
     }
     
-    public void set_restaurant_id () throws ClassNotFoundException, SQLException {
-    	;
+    public void set_restaurant_id (int id) throws ClassNotFoundException, SQLException {
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+    	String query = "UPDATE customers SET restaurant_id="+id+" WHERE email='"+this.email+"'";
+    	
+    	Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        st.executeUpdate(query);
+        
+        st.close();
+        con.close();
     }
     
     public void reset_restaurant_id () throws ClassNotFoundException, SQLException {
-    	;
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+    	String query = "UPDATE customers SET restaurant_id=NULL WHERE email='"+this.email+"'";
+    	
+    	Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        st.executeUpdate(query);
+        
+        st.close();
+        con.close();
+    	
+    }
+    
+    public int get_reservation_id () throws SQLException, ClassNotFoundException {
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+    	String query = "SELECT restaurant_id FROM customers WHERE email='"+this.email+"'";
+    	
+    	Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        
+        int output = rs.getInt(1);
+        
+        st.close();
+        con.close();
+        
+        return output;
     }
     
     // getter methods begin
