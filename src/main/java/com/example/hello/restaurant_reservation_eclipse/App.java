@@ -9,15 +9,33 @@ public class App {
 	private static Scanner myObj = new Scanner(System.in);
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		Scanner myObj = new Scanner(System.in);
+		System.out.println("Welcome to Restaurant Reservation!");
+		
 		while (true) {
-			System.out.println("Enter 1 to sign-up and 2 to log-in (anything else to quit):");
+			System.out.println("\nEnter 1 for Customers, and 2 for Restaurants (Any other key to quit):");
 			
 			String choice = myObj.nextLine();
 			
 			if (choice.equals("1")) {
-				System.out.println("Enter email:");
+				customer_side();
+			} else if (choice.equals("2")) {
+				restaurant_side();
+			} else {
+				break;
+			}
+		}
+		
+		myObj.close();
+	}
+	
+	private static void customer_side() throws ClassNotFoundException, SQLException {
+		while (true) {
+			System.out.println("\nEnter 1 to sign-up and 2 to log-in (anything else to quit):");
+			
+			String choice = myObj.nextLine();
+			
+			if (choice.equals("1")) {
+				System.out.println("\nEnter email:");
 				String email = myObj.nextLine();
 				
 				System.out.println("Enter username:");
@@ -29,13 +47,13 @@ public class App {
 				Customer dummy = new Customer(email, username, password);
 				
 				if (dummy.get_approved()) {
-					System.out.println("You have succesfully signed-up!\n");
+					System.out.println("\nYou have succesfully signed-up!\n");
 				} else {
-					System.out.println("Email or username already exist.\n");
+					System.out.println("\nEmail or username already exist.\n");
 				}
 				
 			} else if (choice.equals("2")) {
-				System.out.println("Enter username:");
+				System.out.println("\nEnter username:");
 				String username = myObj.nextLine();
 				
 				System.out.println("Enter password:");
@@ -44,10 +62,10 @@ public class App {
 				Customer dummy = new Customer(username, password);
 				
 				if (dummy.get_approved()) {
-					System.out.println("You have succesfully logged-in!\n");
+					System.out.println("\nYou have succesfully logged-in!\n");
 					logged_in(dummy);
 				} else {
-					System.out.println("Wrong username or password.\n");
+					System.out.println("\nWrong username or password.\n");
 				}
 				
 			} else {
@@ -55,8 +73,11 @@ public class App {
 				
 			}
 		}
-		System.out.println("This is the end.");
-		myObj.close();
+		System.out.println("\nThis is the end.");
+	}
+	
+	private static void restaurant_side() {
+		; // TODO
 	}
 	
 	private static void logged_in(Customer account) throws ClassNotFoundException, SQLException {
@@ -64,7 +85,7 @@ public class App {
 			System.out.println("Menu:");
 			System.out.println("1 - Your Reservations");
 			System.out.println("2 - Settings");
-			System.out.println("Anything other key is to go back");
+			System.out.println("(Any other key is to go back)");
 			System.out.println("Enter:");
 			
 			String choice = myObj.nextLine();
@@ -81,7 +102,6 @@ public class App {
 		}
 	}
 	
-	// TODO will implement later
 	private static void reservations(Customer account) throws ClassNotFoundException, SQLException {
 		String[][] all_restaurants = Restaurant.get_all_restaurants();
 		while (true) {
@@ -128,7 +148,7 @@ public class App {
 		while (true) {
 			System.out.println("Settings:");
 			System.out.println("1 - Delete Your Account");
-			System.out.println("Anything other key is to go back");
+			System.out.println("(Any other key is to go back)");
 			System.out.println("Enter:");
 			
 			String choice = myObj.nextLine();

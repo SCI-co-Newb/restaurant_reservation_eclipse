@@ -20,9 +20,9 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
         // second add a method to see if user_name already exists (capitalization does matter)
         if (check_email_user_name()) {
             customer_sign_up();
-            approved = true;
+            this.approved = true;
         } else {
-            approved = false;
+            this.approved = false;
         }
     }
     
@@ -31,9 +31,9 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
         this.pass_word = pass_word;
         this.email = check_user_name_pass_word();
         if (this.email != null) {
-            approved = true;
+            this.approved = true;
         } else {
-            approved = false;
+            this.approved = false;
         }
     }
     
@@ -86,7 +86,7 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
         ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
-            if (rs.getString(2).toUpperCase().equals(this.email.toUpperCase()) || rs.getString(3).equals(this.user_name)) {
+            if (rs.getString(2).equals(this.email) || rs.getString(3).equals(this.user_name)) {
             	st.close();
                 con.close();
                 return false;

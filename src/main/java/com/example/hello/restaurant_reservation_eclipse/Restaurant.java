@@ -7,8 +7,23 @@ import java.util.Scanner;
 
 public class Restaurant {
 	
-	public Restaurant () { // do later, include all parameters
-		
+	private String restaurant_name;
+	private String owner_name;
+	private String email;
+	private String pass_word;
+	private boolean approved;
+	
+	public Restaurant (String restaurant_name, String owner_name, String email, String pass_word) throws ClassNotFoundException, SQLException {
+		this.restaurant_name = restaurant_name.toLowerCase();
+		this.owner_name = owner_name;
+		this.email = email.toLowerCase();
+		this.pass_word = pass_word;
+		if (check_restaurant_name()) {
+			restaurant_sign_up();
+			this.approved = true;
+		} else {
+			this.approved = false;
+		}
 	}
 	
 	private static String[] get_info () {
@@ -27,6 +42,71 @@ public class Restaurant {
     	     e.printStackTrace();
     	     return null;
     	}
+    }
+	
+	private void restaurant_sign_up () throws ClassNotFoundException, SQLException {
+		String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+        String query = "INSERT INTO restaurants (restaurant_name, owner_name, email, pass_word) VALUES ('"+this.restaurant_name+"', '"+this.owner_name+"', '"+this.email+"', '"+this.pass_word+"');";
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        st.executeUpdate(query);
+        
+        st.close();
+        con.close();
+	}
+	
+	private boolean check_restaurant_name () throws SQLException, ClassNotFoundException {
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+        String query = "SELECT * FROM restaurants";
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            if (rs.getString(2).equals(this.restaurant_name)) {
+            	st.close();
+                con.close();
+                return false;
+            }
+        }
+        
+        st.close();
+        con.close();
+
+        return true;
+    }
+	
+	public boolean delete_this_restaurant () throws ClassNotFoundException, SQLException {
+    	if (!this.approved) {
+    		return false;
+    	}
+    	
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+        String query = "DELETE FROM restaurants WHERE email='"+this.email+"'";
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        st.executeUpdate(query);
+        
+        st.close();
+        con.close();
+        
+        return true;
+        
     }
 	
 	private static int get_restaurant_count () throws ClassNotFoundException, SQLException {
@@ -97,6 +177,11 @@ public class Restaurant {
         
         return output;
 	}
+	
+	public boolean get_approved () {
+    	return this.approved;
+    }
+	
 }
 
 
