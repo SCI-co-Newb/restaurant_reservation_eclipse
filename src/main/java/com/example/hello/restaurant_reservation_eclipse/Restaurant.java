@@ -26,6 +26,18 @@ public class Restaurant {
 		}
 	}
 	
+	public Restaurant (String restaurant_name, String owner_name, String pass_word) throws ClassNotFoundException, SQLException {
+		this.restaurant_name = restaurant_name.toLowerCase();
+		this.owner_name = owner_name;
+		this.pass_word = pass_word;
+		this.email = check_r_name_o_name_p_word();
+		if (this.email != null) {
+			this.approved = true;
+		} else {
+			this.approved = false;
+		}
+	}
+	
 	private static String[] get_info () {
     	try {
     		// make sure to change the file location to where you actually stored your file
@@ -86,6 +98,33 @@ public class Restaurant {
         return true;
     }
 	
+	private String check_r_name_o_name_p_word () throws SQLException, ClassNotFoundException {
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+        String query = "SELECT * FROM restaurants";
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            if (rs.getString(2).equals(this.restaurant_name) && rs.getString(3).equals(this.owner_name) && rs.getString(5).equals(this.pass_word)) {
+            	String e_mail = rs.getString(4);
+            	st.close();
+                con.close();
+                return e_mail;
+            }
+        }
+        
+        st.close();
+        con.close();
+
+        return null;
+    }
+	
 	public boolean delete_this_restaurant () throws ClassNotFoundException, SQLException {
     	if (!this.approved) {
     		return false;
@@ -95,7 +134,7 @@ public class Restaurant {
         String url = info[0];
     	String userName = info[1];
     	String passWord = info[2];
-        String query = "DELETE FROM restaurants WHERE email='"+this.email+"'";
+        String query = "DELETE FROM restaurants WHERE restaurant_name='"+this.restaurant_name+"'";
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection(url, userName, passWord);

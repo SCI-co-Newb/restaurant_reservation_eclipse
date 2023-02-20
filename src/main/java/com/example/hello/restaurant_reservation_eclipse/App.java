@@ -25,10 +25,11 @@ public class App {
 			}
 		}
 		
+		System.out.println("\nThis is the end.");
 		myObj.close();
 	}
 	
-	private static void customer_side() throws ClassNotFoundException, SQLException {
+	private static void customer_side() throws ClassNotFoundException, SQLException {	// customer page
 		while (true) {
 			System.out.println("\nEnter 1 to sign-up and 2 to log-in (anything else to quit):");
 			
@@ -73,12 +74,62 @@ public class App {
 				
 			}
 		}
-		System.out.println("\nThis is the end.");
 	}
 	
-	private static void restaurant_side() {
-		; // TODO
+	private static void restaurant_side() throws ClassNotFoundException, SQLException {	// restaurant page
+		while (true) {
+			System.out.println("\nEnter 1 to sign-up and 2 to log-in (anything else to quit):");
+			
+			String choice = myObj.nextLine();
+			
+			if (choice.equals("1")) {
+				System.out.println("\nEnter restaurant name:");
+				String restaurant_name = myObj.nextLine();
+				
+				System.out.println("Enter owner name:");
+				String owner_name = myObj.nextLine();
+				
+				System.out.println("Enter email:");
+				String email = myObj.nextLine();
+				
+				System.out.println("Enter password:");
+				String password = myObj.nextLine();
+				
+				Restaurant dummy = new Restaurant(restaurant_name, owner_name, email, password);
+				
+				if (dummy.get_approved()) {
+					System.out.println("\nYou have succesfully signed-up!\n");
+				} else {
+					System.out.println("\nRestaurant name already exist.\n");
+				}
+				
+			} else if (choice.equals("2")) {
+				System.out.println("\nEnter restaurant name:");
+				String restaurant_name = myObj.nextLine();
+				
+				System.out.println("Enter owner name:");
+				String owner_name = myObj.nextLine();
+				
+				System.out.println("Enter password:");
+				String password = myObj.nextLine();
+				
+				Restaurant dummy = new Restaurant(restaurant_name, owner_name, password);
+				
+				if (dummy.get_approved()) {
+					System.out.println("\nYou have succesfully logged-in!\n");
+					logged_in(dummy);
+				} else {
+					System.out.println("\nWrong restaurant name, owner name, or password.\n");
+				}
+				
+			} else {
+				break;
+				
+			}
+		}
 	}
+	
+	// customer methods start
 	
 	private static void logged_in(Customer account) throws ClassNotFoundException, SQLException {
 		while (true) {
@@ -155,6 +206,51 @@ public class App {
 			
 			if (choice.equals("1")) {
 				account.delete_this_customer();
+				return true;
+			} else {
+				break;
+			}
+		}
+		return false;
+	}
+	
+	// customer methods end
+	
+	// restaurant methods start
+	
+	private static void logged_in(Restaurant account) throws ClassNotFoundException, SQLException {
+		while (true) {
+			System.out.println("Menu:");
+			System.out.println("1 - Your Customers");
+			System.out.println("2 - Settings");
+			System.out.println("(Any other key is to go back)");
+			System.out.println("Enter:");
+			
+			String choice = myObj.nextLine();
+			
+			if (choice.equals("1")) {
+				;
+			} else if (choice.equals("2")) {
+				if (settings(account)) {
+					break;
+				}
+			} else {
+				break;
+			}
+		}
+	}
+	
+	private static boolean settings(Restaurant account) throws ClassNotFoundException, SQLException {
+		while (true) {
+			System.out.println("Settings:");
+			System.out.println("1 - Delete Your Account");
+			System.out.println("(Any other key is to go back)");
+			System.out.println("Enter:");
+			
+			String choice = myObj.nextLine();
+			
+			if (choice.equals("1")) {
+				account.delete_this_restaurant();
 				return true;
 			} else {
 				break;
