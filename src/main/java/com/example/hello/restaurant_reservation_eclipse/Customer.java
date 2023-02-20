@@ -205,6 +205,24 @@ public class Customer {		// decided not to put id and restaurant_id here for sec
         return output;
     }
     
+    public static void set_customer_restaurant_id_null (String user_name) throws ClassNotFoundException, SQLException {
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+    	String query = "UPDATE customers SET restaurant_id=NULL WHERE user_name='"+user_name+"'";
+    	
+    	Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        st.executeUpdate(query);
+        
+        st.close();
+        con.close();
+    	
+    	
+    }
+    
     // getter methods begin
     
     public boolean get_approved () {

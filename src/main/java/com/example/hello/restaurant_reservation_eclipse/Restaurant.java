@@ -3,6 +3,7 @@ package com.example.hello.restaurant_reservation_eclipse;
 import java.sql.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Restaurant {
@@ -124,6 +125,52 @@ public class Restaurant {
 
         return null;
     }
+	
+	private int get_restaurant_id () throws ClassNotFoundException, SQLException {
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+        String query = "SELECT id FROM restaurants WHERE restaurant_name='"+this.restaurant_name+"'";
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        rs.next();
+        
+        int output = rs.getInt(1);
+        
+        st.close();
+        con.close();
+        
+        return output;
+	}
+	
+	public ArrayList<String> get_reserved_customers () throws ClassNotFoundException, SQLException {
+		String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+    	String query = "SELECT user_name FROM customers WHERE restaurant_id='"+get_restaurant_id()+"'";
+    	
+    	Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        ResultSet rs = st.executeQuery(query);
+        
+        ArrayList<String> output = new ArrayList<>();
+        
+        while (rs.next()) {
+        	output.add(rs.getString(1));
+        }
+        
+        st.close();
+        con.close();
+        
+        return output;
+		
+	}
 	
 	public boolean delete_this_restaurant () throws ClassNotFoundException, SQLException {
     	if (!this.approved) {

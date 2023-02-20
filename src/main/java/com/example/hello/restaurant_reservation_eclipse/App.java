@@ -1,6 +1,7 @@
 package com.example.hello.restaurant_reservation_eclipse;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 // add an email validator later
 
@@ -229,12 +230,42 @@ public class App {
 			String choice = myObj.nextLine();
 			
 			if (choice.equals("1")) {
-				;
+				reserved_customers(account);
 			} else if (choice.equals("2")) {
 				if (settings(account)) {
 					break;
 				}
 			} else {
+				break;
+			}
+		}
+	}
+	
+	private static void reserved_customers(Restaurant account) throws ClassNotFoundException, SQLException {
+		while (true) {
+			System.out.println("Customers:");
+			ArrayList<String> customer_usernames = account.get_reserved_customers();
+			if (customer_usernames.size() > 0) {
+				for (int i = 0; i < customer_usernames.size(); i++) {
+					System.out.println((i+1)+" - "+customer_usernames.get(i));
+				}
+				System.out.println("Enter one of the numbers above if you want to delete that customers reservation.");
+			} else {
+				System.out.println("There are no customers currently reserved at your restaurant.");
+			}
+			System.out.println("(Any other key is to go back)");
+			System.out.println("Enter:");
+			
+			String choice = myObj.nextLine();
+			
+			try {
+				Integer num = Integer.parseInt(choice);
+				if (num > 0 && num <= customer_usernames.size()) {
+					Customer.set_customer_restaurant_id_null(customer_usernames.get(num-1));
+				} else {
+					break;
+				}
+			} catch (NumberFormatException e) {
 				break;
 			}
 		}
