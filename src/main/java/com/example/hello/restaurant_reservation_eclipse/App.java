@@ -3,6 +3,7 @@ package com.example.hello.restaurant_reservation_eclipse;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import org.apache.commons.validator.routines.EmailValidator;
 // add an email validator later
 
 public class App {
@@ -39,6 +40,10 @@ public class App {
 			if (choice.equals("1")) {
 				System.out.println("\nEnter email:");
 				String email = myObj.nextLine();
+				if (!EmailValidator.getInstance().isValid(email)) {
+					System.out.println("Email not in valid format.\n");
+					continue;
+				}
 				
 				System.out.println("Enter username:");
 				String username = myObj.nextLine();
@@ -84,14 +89,18 @@ public class App {
 			String choice = myObj.nextLine();
 			
 			if (choice.equals("1")) {
+				System.out.println("Enter email:");
+				String email = myObj.nextLine();
+				if (!EmailValidator.getInstance().isValid(email)) {
+					System.out.println("Email not in valid format.\n");
+					continue;
+				}
+				
 				System.out.println("\nEnter restaurant name:");
 				String restaurant_name = myObj.nextLine();
 				
 				System.out.println("Enter owner name:");
 				String owner_name = myObj.nextLine();
-				
-				System.out.println("Enter email:");
-				String email = myObj.nextLine();
 				
 				System.out.println("Enter password:");
 				String password = myObj.nextLine();
