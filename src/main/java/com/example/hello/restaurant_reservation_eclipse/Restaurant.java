@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDateTime;
 
 public class Restaurant {
 	
@@ -193,6 +194,22 @@ public class Restaurant {
         
         return true;
         
+    }
+	
+	public void update_last_login () throws ClassNotFoundException, SQLException {
+    	String[] info = get_info();
+        String url = info[0];
+    	String userName = info[1];
+    	String passWord = info[2];
+        String query = "UPDATE restaurants SET last_login='"+LocalDateTime.now().toString()+"' WHERE email='"+this.email+"'";
+        
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection(url, userName, passWord);
+        Statement st = con.createStatement();
+        st.executeUpdate(query);
+        
+        st.close();
+        con.close();
     }
 	
 	private static int get_restaurant_count () throws ClassNotFoundException, SQLException {

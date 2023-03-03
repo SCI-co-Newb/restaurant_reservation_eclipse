@@ -70,6 +70,7 @@ public class App {
 				
 				if (dummy.get_approved()) {
 					System.out.println("\nYou have succesfully logged-in!\n");
+					dummy.update_last_login();
 					logged_in(dummy);
 				} else {
 					System.out.println("\nWrong username or password.\n");
@@ -127,6 +128,7 @@ public class App {
 				
 				if (dummy.get_approved()) {
 					System.out.println("\nYou have succesfully logged-in!\n");
+					dummy.update_last_login();
 					logged_in(dummy);
 				} else {
 					System.out.println("\nWrong restaurant name, owner name, or password.\n");
@@ -298,5 +300,7 @@ public class App {
 		}
 		return false;
 	}
+	
+	// restaurant methods end
 
 }
