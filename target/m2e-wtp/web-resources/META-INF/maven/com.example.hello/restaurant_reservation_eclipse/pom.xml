@@ -6,6 +6,7 @@
 
   <groupId>com.example.hello</groupId>
   <artifactId>restaurant_reservation_eclipse</artifactId>
+  <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
 
   <name>restaurant_reservation_eclipse</name>
