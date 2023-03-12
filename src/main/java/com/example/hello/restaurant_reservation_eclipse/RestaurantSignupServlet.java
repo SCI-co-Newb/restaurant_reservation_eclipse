@@ -10,19 +10,17 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 
 import org.apache.commons.validator.routines.EmailValidator;
-
 /**
- * Servlet implementation class CustomerSignupServlet
+ * Servlet implementation class RestaurantSignupServlet
  */
-@WebServlet("/customerSignupServlet")
-public class CustomerSignupServlet extends HttpServlet {
+@WebServlet("/restaurantSignupServlet")
+public class RestaurantSignupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
-     * @see HttpServlet#HttpServlet()
+     * Default constructor. 
      */
-    public CustomerSignupServlet() {
-        super();
+    public RestaurantSignupServlet() {
         // TODO Auto-generated constructor stub
     }
 
@@ -34,25 +32,26 @@ public class CustomerSignupServlet extends HttpServlet {
 		
 		// read form fields
 		String email    = request.getParameter("email");
-		String username = request.getParameter("username");
+		String restaurant_name = request.getParameter("restaurant_name");
+		String owner_name = request.getParameter("owner_name");
         String password = request.getParameter("password");
         
         PrintWriter writer = response.getWriter();
         
         String htmlRespone = "<html>";
         
-        if (!EmailValidator.getInstance().isValid(email)) {
-            htmlRespone += "<h2>Email not in valid format</h2>";
-            htmlRespone += "<button onclick = \"window.location.href = 'CustomerSignup.html';\">Back</button>";
+		if (!EmailValidator.getInstance().isValid(email)) {
+			htmlRespone += "<h2>Email not in valid format</h2>";
+			htmlRespone += "<button onclick = \"window.location.href = 'RestaurantSignup.html';\">Back</button>";
 		} else {
 			try {
-				Customer dummy = new Customer(email, username, password);
+				Restaurant dummy = new Restaurant(email, restaurant_name, owner_name, password);
 				if (dummy.get_approved()) {
 					htmlRespone += "<h2>You have successfuly signed up</h2>";
-					htmlRespone += "<button onclick = \"window.location.href = 'Customers.html';\">Back</button>";
+					htmlRespone += "<button onclick = \"window.location.href = 'Restaurants.html';\">Back</button>";
 				} else {
 					htmlRespone += "<h2>Email or username already exists</h2>";
-					htmlRespone += "<button onclick = \"window.location.href = 'CustomerSignup.html';\">Back</button>";
+					htmlRespone += "<button onclick = \"window.location.href = 'RestaurantSignup.html';\">Back</button>";
 				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -64,10 +63,10 @@ public class CustomerSignupServlet extends HttpServlet {
 				htmlRespone += "<h2>Something went wrong</h2>";
 			}
 		}
-        
-        htmlRespone += "</html>";
-        
-        writer.println(htmlRespone);
+		
+		htmlRespone += "</html>";
+		
+		writer.println(htmlRespone);
 	}
 
 }
