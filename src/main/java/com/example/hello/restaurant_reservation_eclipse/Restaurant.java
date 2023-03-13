@@ -281,9 +281,29 @@ public class Restaurant {
         return output;
 	}
 	
-	public boolean get_approved () {
+// getter methods begin
+    
+    public boolean get_approved () {
     	return this.approved;
     }
+    
+    public String get_email () {
+    	return this.email;
+    }
+    
+    public String get_restaurant_name () {
+    	return this.restaurant_name;
+    }
+    
+    public String get_owner_name () {
+    	return this.owner_name;
+    }
+    
+    public String get_pass_word () {
+    	return this.pass_word;
+    }
+    
+    // getter methods end
 	
 }
 

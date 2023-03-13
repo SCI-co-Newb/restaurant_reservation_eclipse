@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class RestaurantLoginServlet
@@ -44,8 +45,9 @@ public class RestaurantLoginServlet extends HttpServlet {
 			if (dummy.get_approved()) {
 				htmlRespone += "<h2>You have successfully logged in</h1>";
 				dummy.update_last_login();
+				HttpSession session = request.getSession();
+				session.setAttribute("email", dummy.get_email());
 				htmlRespone += "<button onclick = \"window.location.href = 'RestaurantMenu.html';\">Menu</button>";
-				htmlRespone += "<button onclick = \"window.location.href = 'Restaurants.html';\">Logout</button>";
 			} else {
 				htmlRespone += "<h2>Incorrect restaurant name, owner name, and/or password</h1>";
 				htmlRespone += "<button onclick = \"window.location.href = 'RestaurantLogin.html';\">Try Again</button>";
