@@ -5,7 +5,12 @@
 <title>Customer Menu</title>
 </head>
 <body>
-	<form name="restaurantLogout" method="get" action="logoutServlet">
+	<!-- get because you need to get session email to see if there are reservations, and display the right screen-->
+	<form name="customerReservation" method="get" action="customerReservationServlet">
+    	<input type="submit" value="Your Reservation" />
+	</form>
+	<button onclick = "window.location.href = 'CustomerSettings.html';">Settings</button>
+	<form name="customerLogout" method="get" action="logoutServlet">
     	<input type="submit" value="Logout" />
 	</form>
 </body>

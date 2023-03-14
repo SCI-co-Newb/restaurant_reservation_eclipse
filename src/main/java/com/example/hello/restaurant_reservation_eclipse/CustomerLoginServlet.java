@@ -45,7 +45,8 @@ public class CustomerLoginServlet extends HttpServlet {
 				htmlRespone += "<h2>You have successfully logged in</h1>";
 				dummy.update_last_login();
 				HttpSession session = request.getSession();
-				session.setAttribute("email", dummy.get_email());
+				session.setAttribute("user_name", dummy.get_user_name());
+				session.setAttribute("pass_word", dummy.get_pass_word());
 				htmlRespone += "<button onclick = \"window.location.href = 'CustomerMenu.html';\">Menu</button>";
 			} else {
 				htmlRespone += "<h2>Incorrect username and/or password</h1>";

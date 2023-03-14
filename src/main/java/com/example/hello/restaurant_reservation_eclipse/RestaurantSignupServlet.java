@@ -31,7 +31,7 @@ public class RestaurantSignupServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		// read form fields
-		String email    = request.getParameter("email");
+		String email = request.getParameter("email");
 		String restaurant_name = request.getParameter("restaurant_name");
 		String owner_name = request.getParameter("owner_name");
         String password = request.getParameter("password");
@@ -45,7 +45,7 @@ public class RestaurantSignupServlet extends HttpServlet {
 			htmlRespone += "<button onclick = \"window.location.href = 'RestaurantSignup.html';\">Back</button>";
 		} else {
 			try {
-				Restaurant dummy = new Restaurant(email, restaurant_name, owner_name, password);
+				Restaurant dummy = new Restaurant(restaurant_name, owner_name, email, password);
 				if (dummy.get_approved()) {
 					htmlRespone += "<h2>You have successfuly signed up</h2>";
 					htmlRespone += "<button onclick = \"window.location.href = 'Restaurants.html';\">Back</button>";

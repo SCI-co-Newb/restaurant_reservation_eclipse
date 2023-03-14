@@ -146,7 +146,7 @@ public class App {
 	private static void logged_in(Customer account) throws ClassNotFoundException, SQLException {
 		while (true) {
 			System.out.println("Menu:");
-			System.out.println("1 - Your Reservations");
+			System.out.println("1 - Your Reservation");
 			System.out.println("2 - Settings");
 			System.out.println("(Any other key is to go back)");
 			System.out.println("Enter:");

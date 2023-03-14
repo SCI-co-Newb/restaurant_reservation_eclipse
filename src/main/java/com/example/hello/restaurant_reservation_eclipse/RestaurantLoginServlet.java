@@ -46,7 +46,9 @@ public class RestaurantLoginServlet extends HttpServlet {
 				htmlRespone += "<h2>You have successfully logged in</h1>";
 				dummy.update_last_login();
 				HttpSession session = request.getSession();
-				session.setAttribute("email", dummy.get_email());
+				session.setAttribute("restaurant_name", dummy.get_restaurant_name());
+				session.setAttribute("owner_name", dummy.get_owner_name());
+				session.setAttribute("pass_word", dummy.get_pass_word());
 				htmlRespone += "<button onclick = \"window.location.href = 'RestaurantMenu.html';\">Menu</button>";
 			} else {
 				htmlRespone += "<h2>Incorrect restaurant name, owner name, and/or password</h1>";

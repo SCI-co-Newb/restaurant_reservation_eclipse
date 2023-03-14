@@ -5,6 +5,11 @@
 <title>Restaurant Menu</title>
 </head>
 <body>
+	<!-- get since you need restaurant email to get all customers -->
+	<form name="restaurantCustomers" method="get" action="restaurantCustomersServlet">
+    	<input type="submit" value="Your Customers" />
+	</form>
+	<button onclick = "window.location.href = 'RestaurantSettings.html';">Settings</button>
 	<form name="restaurantLogout" method="get" action="logoutServlet">
     	<input type="submit" value="Logout" />
 	</form>
